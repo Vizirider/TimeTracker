@@ -1,0 +1,56 @@
+﻿@model WebUi.Model.Project.ProjectViewModel
+@{
+    ViewBag.Title = "ProjectList";
+    if (Session["User"] != null)
+    {
+        if (Session["Role"].ToString() == "Client")
+        {
+            Layout = "~/Views/Shared/_Client_layout.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_User_layout.cshtml";
+        }
+    }
+}
+<br />
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    <h2>@Resource.ProjectList</h2>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+        @if (Model.ProjectList.Count == 0)
+        {
+            <text>Project list is empty.</text>
+        }
+        else
+        {
+            <div class="control-section">
+                @Html.EJS().Grid("Project").DataSource((IEnumerable<object>) @Model.ProjectList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+                {
+                    col.Field("Id").HeaderText("ID").Width("120").Add();
+                    col.Field("Name").HeaderText(@Model.Name).Template("#template").Width("auto").Add();
+                }).AllowPaging(true).AllowSorting().Created("created").Render()
+            </div>
+            <script id="template" type="text/x-template">
+                <a rel='nofollow' href="DetailsProjectList?id=${Id}">${Name}</a>
+            </script>
+            <script>
+                function created() {
+                    $(".e-filtertext").eq(0).attr("placeholder", "ID");
+                    $(".e-filtertext").eq(1).attr("placeholder", "Project Name");
+                }
+            </script>
+            <br/>
+            @Html.ActionLink(WebUi.Resource.BackToHome, "Index", "User")
+        }
+    </div>
+}

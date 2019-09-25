@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Time Track</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/ej2/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/ej2/ej2.min.js"></script>
+    <link href="~/Content/ej2/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink(WebUi.Resource.Home, "Index", "Admin", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+
+            @if (Session["User"] != null && Session["Role"].ToString() == "Admin")
+            {
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink(WebUi.Resource.Clients, "ClientsList", "AdminClient")</li>
+                        <li>@Html.ActionLink(WebUi.Resource.Users, "UserList", "AdminUser")</li>
+                        <li>@Html.ActionLink(WebUi.Resource.Teams, "TeamList", "Team")</li>
+                        <li>@Html.ActionLink(WebUi.Resource.Projects, "ProjectList", "AdminProject")</li>
+                        <li>@Html.ActionLink(WebUi.Resource.Status, "StatusList", "AdminStatus")</li>
+                        <li>@Html.ActionLink(WebUi.Resource.Currency, "CurrencyList", "AdminCurrency")</li>
+                        <li>@Html.ActionLink(WebUi.Resource.Permission, "PermissionList", "AdminPermission")</li>
+                        <li>@Html.ActionLink(WebUi.Resource.Role, "RoleList", "AdminRole")</li>
+                        @*<li>@Html.ActionLink("Time Record","Addtimerecord", "TimeRecord")</li>*@
+                        <li>@Html.ActionLink("Todo", "TodoList", "AdminTodo")</li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                @Session["User"].ToString()
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a>@Html.ActionLink(WebUi.Resource.Profile, "Info", "Admin")</a></li>
+                                <li>@Html.ActionLink(WebUi.Resource.EditProfile, "EditUser", "Admin")</li>
+                            </ul>
+                        </li>
+
+                        <li>@Html.ActionLink(WebUi.Resource.LogOut, "Logout", "Login")</li>
+                    </ul>
+
+                </div>
+            }
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Time Track</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @Html.EJS().ScriptManager()
+</body>
+</html>
+

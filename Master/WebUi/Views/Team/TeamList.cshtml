@@ -1,0 +1,77 @@
+﻿@model WebUi.Model.Team.TeamViewModel
+@{
+    ViewBag.Title = "TeamList";
+    if (Session["User"] != null)
+    {
+        if (Session["Role"].ToString() == "Admin")
+        {
+            Layout = "~/Views/Shared/_Admin_layout.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_User_layout.cshtml";
+        }
+    }
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    <h2>Team List</h2>
+    <div class="form-horizontal">
+        <p>
+            @Html.ActionLink(Resource.AddNewTeam, "AddNewTeam", "Team", null, new { @class = "btn btn-primary" })
+        </p>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+        @if (Model.TeamList.Count == 0)
+        {
+            <text>Team list is empty.</text>
+        }
+        else
+        {
+            <div class="control-section">
+                @Html.EJS().Grid("Grid").DataSource((IEnumerable<object>) @Model.TeamList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+                {
+                    col.Field("Id").HeaderText("Id").Width("120").Add();
+                    col.Field("Name").HeaderText(@Model.Name).Template("#template").Width("auto").Add();
+                    col.Field("Options").HeaderText("Options").Template("#template1").Width("auto").Add();
+                }).AllowPaging(true).AllowSorting().Created("created").Render()
+            </div>
+            <script id="template" type="text/x-template">
+                <a rel='nofollow' href="DetalisTeam/${Id}">${Name}</a>
+            </script>
+            <script id="template1" type="text/x-template1">
+                <a rel='nofollow' href="EditTeam/${Id}">Edit</a> |
+                <a rel='nofollow' href="DeleteTeam/${Id}">Delete</a>
+            </script>
+            <script>
+                function created() {
+                    $(".e-filtertext").eq(0).attr("placeholder", "ID");
+                    $(".e-filtertext").eq(1).attr("placeholder", "Team Name"); 
+                }
+            </script>
+            <br />
+            <div class="form-group">
+                <div class="col-md-10">
+                    @if (Session["Role"].ToString() == "Admin")
+                    {
+                        @Html.ActionLink(WebUi.Resource.BackToHome, "Index", "Admin")
+                    }
+                    else
+                    {
+                        @Html.ActionLink(WebUi.Resource.BackToHome, "Index", "User")
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+
+}

@@ -1,0 +1,79 @@
+﻿@model WebUi.Model.Team.TeamDetailsViewModel
+@{
+    ViewBag.Title = "EditTeam";
+
+    if (Session["Role"].ToString() == "Admin")
+    {
+        Layout = "~/Views/Shared/_Admin_layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_User_layout.cshtml";
+    }
+}
+<br />
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    using (Html.BeginForm())
+    {
+        <h2>Edit @Model.TeamDetails.TeamName</h2>
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        <div class="form-horizontal">
+            <hr/>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @ViewBag.Message
+                </div>
+            </div>
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+            <div class="form-group">
+                @Html.LabelFor(model => model.TeamDetails.TeamName, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TeamDetails.TeamName, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.TeamDetails.TeamName, "", new {@class = "text-danger"})
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Currency, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.TeamDetails.CurrencyId, new SelectList(Model.CurrencyList, "Id", "Code"), @Model.Currency, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.TeamDetails.CurrencyId, "", new {@class = "text-danger"})
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PublicPrice, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TeamDetails.PublicPrice, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.TeamDetails.PublicPrice, "", new {@class = "text-danger"})
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PrivatePrice, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TeamDetails.PrivatePrice, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.TeamDetails.PrivatePrice, "", new {@class = "text-danger"})
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" Value="Save" class="btn btn-default"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink(WebUi.Resource.BackToList, "DetalisTeam", new {id = Model.TeamDetails.TeamId})
+                </div>
+            </div>
+        </div>
+    }
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

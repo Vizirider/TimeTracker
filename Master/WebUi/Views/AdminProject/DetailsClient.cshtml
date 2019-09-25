@@ -1,0 +1,65 @@
+﻿@model WebUi.Model.Client.ClientDetailsViewModel
+@{
+    ViewBag.Title = "DetailsClient";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+
+    if (ViewBag.Error != -1)
+    {
+        <h2>Details @Model.ClientDetails.ClientName</h2>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @ViewBag.Message
+                </div>
+            </div>
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>
+                        @Html.DisplayName(Model.ClientDetails.Id.ToString())
+                    </th>
+                    <th>
+                        @Html.DisplayName(Model.ClientDetails.ClientName)
+                    </th>
+                    <th>
+                        @Html.DisplayName(Model.ClientDetails.Website)
+                    </th>
+                    <th>
+                        @Html.DisplayName(Model.ClientDetails.TeamName)
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ClientDetails.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ClientDetails.ClientName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ClientDetails.Website)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ClientDetails.TeamName)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            @Html.ActionLink(WebUi.Resource.BackToList, "ProjectList", "AdminProject")
+        </div>
+    }
+    else
+    {
+        <div>
+            @Html.ActionLink(WebUi.Resource.BackToList, "ProjectList", "AdminProject")
+        </div>
+        @ViewBag.Message
+    }
+}

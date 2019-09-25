@@ -1,0 +1,1208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TimeTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Website" Type="nvarchar(max)" />
+          <Property Name="TeamId" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsDefault" Type="bit" />
+          <Property Name="PriceToDefault" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DeadLine" Type="nvarchar(max)" />
+          <Property Name="CurrencyId" Type="bigint" Nullable="false" />
+          <Property Name="UserTeamLinkId" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvoiceProjectLink">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="InvoiceId" Type="bigint" Nullable="false" />
+          <Property Name="ProjectID" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="InvoiceId" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Key" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PermissionTypeId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DeadLine" Type="datetime" />
+          <Property Name="EffortInHours" Type="smallint" />
+          <Property Name="EffortInCurrency" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TeamId" Type="bigint" Nullable="false" />
+          <Property Name="StatusId" Type="bigint" Nullable="false" />
+          <Property Name="ClientId" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CurrencyId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Key" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RoleTypeId" Type="tinyint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RolePermissionLink">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="RoleId" Type="bigint" Nullable="false" />
+          <Property Name="PermissionId" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StateTypeId" Type="tinyint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TimeRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="TodoId" Type="bigint" Nullable="false" />
+          <Property Name="TimeInSeconds" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Todo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="StatusId" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Content" Type="varchar(max)" Nullable="false" />
+          <Property Name="ProjectId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Token" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserTeamLink">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PublicPrice" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PrivatePrice" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CurrencyId" Type="bigint" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="TeamId" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_InvoiceCurrency">
+          <End Role="Currency" Type="Self.Currency" Multiplicity="1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoicePayment">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceProjectLinkInvoice">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="InvoiceProjectLink" Type="Self.InvoiceProjectLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceProjectLink">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceProjectLinkProject">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="InvoiceProjectLink" Type="Self.InvoiceProjectLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceProjectLink">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectClient">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectStatus">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePermissionLinkPermission">
+          <End Role="Permission" Type="Self.Permission" Multiplicity="1" />
+          <End Role="RolePermissionLink" Type="Self.RolePermissionLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolePermissionLink">
+              <PropertyRef Name="PermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePermissionLinkRole">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="RolePermissionLink" Type="Self.RolePermissionLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolePermissionLink">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeamClient">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeamProject">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TodoProject">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Todo" Type="Self.Todo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Todo">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TodoStatus">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Todo" Type="Self.Todo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Todo">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TodoTimeRecord">
+          <End Role="Todo" Type="Self.Todo" Multiplicity="1" />
+          <End Role="TimeRecord" Type="Self.TimeRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Todo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeRecord">
+              <PropertyRef Name="TodoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserClient">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTeamLinkCurrency">
+          <End Role="Currency" Type="Self.Currency" Multiplicity="1" />
+          <End Role="UserTeamLink" Type="Self.UserTeamLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserTeamLink">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTeamLinkInvoice">
+          <End Role="UserTeamLink" Type="Self.UserTeamLink" Multiplicity="1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTeamLink">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="UserTeamLinkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTeamLinkTeam">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="UserTeamLink" Type="Self.UserTeamLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserTeamLink">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTeamLinkUser">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserTeamLink" Type="Self.UserTeamLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserTeamLink">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TimeTrackerModelStoreContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceProjectLink" EntityType="Self.InvoiceProjectLink" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permission" EntityType="Self.Permission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RolePermissionLink" EntityType="Self.RolePermissionLink" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeRecord" EntityType="Self.TimeRecord" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Todo" EntityType="Self.Todo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTeamLink" EntityType="Self.UserTeamLink" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_InvoiceCurrency" Association="Self.FK_InvoiceCurrency">
+            <End Role="Currency" EntitySet="Currency" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoicePayment" Association="Self.FK_InvoicePayment">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceProjectLinkInvoice" Association="Self.FK_InvoiceProjectLinkInvoice">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="InvoiceProjectLink" EntitySet="InvoiceProjectLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceProjectLinkProject" Association="Self.FK_InvoiceProjectLinkProject">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="InvoiceProjectLink" EntitySet="InvoiceProjectLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectClient" Association="Self.FK_ProjectClient">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectStatus" Association="Self.FK_ProjectStatus">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePermissionLinkPermission" Association="Self.FK_RolePermissionLinkPermission">
+            <End Role="Permission" EntitySet="Permission" />
+            <End Role="RolePermissionLink" EntitySet="RolePermissionLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePermissionLinkRole" Association="Self.FK_RolePermissionLinkRole">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RolePermissionLink" EntitySet="RolePermissionLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeamClient" Association="Self.FK_TeamClient">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeamProject" Association="Self.FK_TeamProject">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TodoProject" Association="Self.FK_TodoProject">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Todo" EntitySet="Todo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TodoStatus" Association="Self.FK_TodoStatus">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Todo" EntitySet="Todo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TodoTimeRecord" Association="Self.FK_TodoTimeRecord">
+            <End Role="Todo" EntitySet="Todo" />
+            <End Role="TimeRecord" EntitySet="TimeRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserClient" Association="Self.FK_UserClient">
+            <End Role="User" EntitySet="User" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole" Association="Self.FK_UserRole">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTeamLinkCurrency" Association="Self.FK_UserTeamLinkCurrency">
+            <End Role="Currency" EntitySet="Currency" />
+            <End Role="UserTeamLink" EntitySet="UserTeamLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTeamLinkInvoice" Association="Self.FK_UserTeamLinkInvoice">
+            <End Role="UserTeamLink" EntitySet="UserTeamLink" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTeamLinkTeam" Association="Self.FK_UserTeamLinkTeam">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="UserTeamLink" EntitySet="UserTeamLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTeamLinkUser" Association="Self.FK_UserTeamLinkUser">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserTeamLink" EntitySet="UserTeamLink" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm"
+              xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration"
+              xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
+              Namespace="TimeTrackerModel" Alias="Self"
+              xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+              annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="TimeTrackerModelContainer" annotation:LazyLoadingEnabled="true">
+          <AssociationSet Name="UserRole" Association="TimeTrackerModel.UserRole">
+            <End Role="User" EntitySet="User" />
+            <End Role="Role" EntitySet="Role" />
+          </AssociationSet>
+          <AssociationSet Name="TeamProject" Association="TimeTrackerModel.TeamProject">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="TeamClient" Association="TimeTrackerModel.TeamClient">
+            <End EntitySet="Team" Role="Team" />
+          </AssociationSet>
+          <AssociationSet Name="UserTeamLinkCurrency" Association="TimeTrackerModel.UserTeamLinkCurrency">
+            <End Role="UserTeamLink" EntitySet="UserTeamLink" />
+            <End Role="Currency" EntitySet="Currency" />
+          </AssociationSet>
+          <AssociationSet Name="ProjectClient" Association="TimeTrackerModel.ProjectClient">
+            <End EntitySet="Project" Role="Project" />
+          </AssociationSet>
+          <AssociationSet Name="InvoiceCurrency" Association="TimeTrackerModel.InvoiceCurrency">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="Currency" EntitySet="Currency" />
+          </AssociationSet>
+          <AssociationSet Name="TodoTimeRecord" Association="TimeTrackerModel.TodoTimeRecord">
+            <End Role="Todo" EntitySet="Todo" />
+            <End Role="TimeRecord" EntitySet="TimeRecord" />
+          </AssociationSet>
+          <AssociationSet Name="UserTeamLinkInvoice" Association="TimeTrackerModel.UserTeamLinkInvoice">
+            <End Role="UserTeamLink" EntitySet="UserTeamLink" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="InvoicePayment" Association="TimeTrackerModel.InvoicePayment">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="ProjectStatus" Association="TimeTrackerModel.ProjectStatus">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Status" EntitySet="Status" />
+          </AssociationSet>
+          <AssociationSet Name="TodoStatus" Association="TimeTrackerModel.TodoStatus">
+            <End Role="Todo" EntitySet="Todo" />
+            <End Role="Status" EntitySet="Status" />
+          </AssociationSet>
+          <AssociationSet Name="UserTeamLinkUser" Association="TimeTrackerModel.UserTeamLinkUser">
+            <End Role="UserTeamLink" EntitySet="UserTeamLink" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="UserTeamLinkTeam" Association="TimeTrackerModel.UserTeamLinkTeam">
+            <End Role="UserTeamLink" EntitySet="UserTeamLink" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+          <AssociationSet Name="RolePermissionLinkRole" Association="TimeTrackerModel.RolePermissionLinkRole">
+            <End Role="RolePermissionLink" EntitySet="RolePermissionLink" />
+            <End Role="Role" EntitySet="Role" />
+          </AssociationSet>
+          <AssociationSet Name="RolePermissionLinkPermission"
+                          Association="TimeTrackerModel.RolePermissionLinkPermission">
+            <End Role="RolePermissionLink" EntitySet="RolePermissionLink" />
+            <End Role="Permission" EntitySet="Permission" />
+          </AssociationSet>
+          <AssociationSet Name="InvoiceProjectLinkInvoice" Association="TimeTrackerModel.InvoiceProjectLinkInvoice">
+            <End Role="InvoiceProjectLink" EntitySet="InvoiceProjectLink" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="InvoiceProjectLinkProject" Association="TimeTrackerModel.InvoiceProjectLinkProject">
+            <End Role="InvoiceProjectLink" EntitySet="InvoiceProjectLink" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <EntitySet Name="Payment" EntityType="TimeTrackerModel.Payment" />
+          <EntitySet Name="User" EntityType="TimeTrackerModel.User" />
+          <EntitySet Name="InvoiceProjectLink" EntityType="TimeTrackerModel.InvoiceProjectLink" />
+          <EntitySet Name="Currency" EntityType="TimeTrackerModel.Currency" />
+          <EntitySet Name="RolePermissionLink" EntityType="TimeTrackerModel.RolePermissionLink" />
+          <EntitySet Name="UserTeamLink" EntityType="TimeTrackerModel.UserTeamLink" />
+          <EntitySet Name="Todo" EntityType="TimeTrackerModel.Todo" />
+          <EntitySet Name="Status" EntityType="TimeTrackerModel.Status" />
+          <EntitySet Name="Role" EntityType="TimeTrackerModel.Role" />
+          <EntitySet Name="Invoice" EntityType="TimeTrackerModel.Invoice" />
+          <EntitySet Name="Team" EntityType="TimeTrackerModel.Team" />
+          <EntitySet Name="TimeRecord" EntityType="TimeTrackerModel.TimeRecord" />
+          <EntitySet Name="Permission" EntityType="TimeTrackerModel.Permission" />
+          <EntitySet Name="Project" EntityType="TimeTrackerModel.Project" />
+          <EntitySet Name="Client" EntityType="TimeTrackerModel.Client" />
+          <AssociationSet Name="UserClient" Association="TimeTrackerModel.UserClient">
+            <End Role="User" EntitySet="User" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="TodoProject" Association="TimeTrackerModel.TodoProject">
+            <End Role="Todo" EntitySet="Todo" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <NavigationProperty Name="Role" Relationship="TimeTrackerModel.UserRole" FromRole="User" ToRole="Role" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="UserTeamLink" Relationship="TimeTrackerModel.UserTeamLinkUser" FromRole="User"
+                              ToRole="UserTeamLink" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="TimeTrackerModel.UserClient" FromRole="User" ToRole="Client" />
+          <Property Name="Token" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="User" Relationship="TimeTrackerModel.UserRole" FromRole="Role" ToRole="User" />
+          <NavigationProperty Name="RolePermissionLink" Relationship="TimeTrackerModel.RolePermissionLinkRole"
+                              FromRole="Role" ToRole="RolePermissionLink" />
+          <Property Name="RoleTypeId" Type="TimeTrackerModel.RoleTypeEnum" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="RolePermissionLink" Relationship="TimeTrackerModel.RolePermissionLinkPermission"
+                              FromRole="Permission" ToRole="RolePermissionLink" />
+          <Property Name="PermissionTypeId" Type="TimeTrackerModel.PermissionTypeEnum" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Website" Nullable="true" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Team" Relationship="TimeTrackerModel.TeamClient" FromRole="Client" ToRole="Team" />
+          <Property Name="TeamId" Nullable="false" Type="Int64" />
+          <NavigationProperty Name="Project" Relationship="TimeTrackerModel.ProjectClient" FromRole="Client"
+                              ToRole="Project" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int64" />
+          <Property Name="UserId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <NavigationProperty Name="User" Relationship="TimeTrackerModel.UserClient" FromRole="Client" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="DeadLine" Type="DateTime" Nullable="true" Precision="3" />
+          <Property Name="EffortInHours" Type="Int16" Nullable="true" />
+          <Property Name="EffortInCurrency" Type="Decimal" Nullable="true" Precision="18" Scale="0" />
+          <NavigationProperty Name="Team" Relationship="TimeTrackerModel.TeamProject" FromRole="Project" ToRole="Team" />
+          <Property Name="TeamId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="TimeTrackerModel.ProjectClient" FromRole="Project"
+                              ToRole="Client" />
+          <Property Name="StatusId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Status" Relationship="TimeTrackerModel.ProjectStatus" FromRole="Project"
+                              ToRole="Status" />
+          <Property Name="ClientId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="InvoiceProjectLink" Relationship="TimeTrackerModel.InvoiceProjectLinkProject"
+                              FromRole="Project" ToRole="InvoiceProjectLink" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CurrencyId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Todo" Relationship="TimeTrackerModel.TodoProject" FromRole="Project" ToRole="Todo" />
+        </EntityType>
+        <EntityType Name="TimeRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <NavigationProperty Name="Todo" Relationship="TimeTrackerModel.TodoTimeRecord" FromRole="TimeRecord"
+                              ToRole="Todo" />
+          <Property Name="TodoId" Type="Int64" Nullable="false" />
+          <Property Name="TimeInSeconds" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Project" Relationship="TimeTrackerModel.TeamProject" FromRole="Team"
+                              ToRole="Project" />
+          <NavigationProperty Name="Client" Relationship="TimeTrackerModel.TeamClient" FromRole="Team" ToRole="Client" />
+          <NavigationProperty Name="UserTeamLink" Relationship="TimeTrackerModel.UserTeamLinkTeam" FromRole="Team"
+                              ToRole="UserTeamLink" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Currency" Relationship="TimeTrackerModel.InvoiceCurrency" FromRole="Invoice"
+                              ToRole="Currency" />
+          <NavigationProperty Name="UserTeamLink" Relationship="TimeTrackerModel.UserTeamLinkInvoice"
+                              FromRole="Invoice" ToRole="UserTeamLink" />
+          <NavigationProperty Name="Payment" Relationship="TimeTrackerModel.InvoicePayment" FromRole="Invoice"
+                              ToRole="Payment" />
+          <Property Name="DeadLine" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="CurrencyId" Type="Int64" Nullable="false" />
+          <Property Name="UserTeamLinkId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="InvoiceProjectLink" Relationship="TimeTrackerModel.InvoiceProjectLinkInvoice"
+                              FromRole="Invoice" ToRole="InvoiceProjectLink" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <NavigationProperty Name="Invoice" Relationship="TimeTrackerModel.InvoicePayment" FromRole="Payment"
+                              ToRole="Invoice" />
+          <Property Name="InvoiceId" Type="Int64" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="UserRole">
+          <End Type="TimeTrackerModel.User" Role="User" Multiplicity="*" />
+          <End Type="TimeTrackerModel.Role" Role="Role" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Project" Relationship="TimeTrackerModel.ProjectStatus" FromRole="Status"
+                              ToRole="Project" />
+          <NavigationProperty Name="Todo" Relationship="TimeTrackerModel.TodoStatus" FromRole="Status" ToRole="Todo" />
+          <Property Name="StateTypeId" Type="TimeTrackerModel.StateEnum" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Todo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <NavigationProperty Name="TimeRecord" Relationship="TimeTrackerModel.TodoTimeRecord" FromRole="Todo"
+                              ToRole="TimeRecord" />
+          <Property Name="StatusId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Status" Relationship="TimeTrackerModel.TodoStatus" FromRole="Todo" ToRole="Status" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="TimeTrackerModel.TodoProject" FromRole="Todo" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="UserTeamLink">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PublicPrice" Type="String" Nullable="false" MaxLength="Max" Unicode="true"
+                    FixedLength="false" />
+          <Property Name="PrivatePrice" Type="String" Nullable="false" MaxLength="Max" Unicode="true"
+                    FixedLength="false" />
+          <NavigationProperty Name="Currency" Relationship="TimeTrackerModel.UserTeamLinkCurrency"
+                              FromRole="UserTeamLink" ToRole="Currency" />
+          <NavigationProperty Name="Invoice" Relationship="TimeTrackerModel.UserTeamLinkInvoice"
+                              FromRole="UserTeamLink" ToRole="Invoice" />
+          <Property Name="CurrencyId" Type="Int64" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="TimeTrackerModel.UserTeamLinkUser" FromRole="UserTeamLink"
+                              ToRole="User" />
+          <Property Name="TeamId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Team" Relationship="TimeTrackerModel.UserTeamLinkTeam" FromRole="UserTeamLink"
+                              ToRole="Team" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="RolePermissionLink">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="RoleId" Type="Int64" Nullable="false" />
+          <Property Name="PermissionId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="TimeTrackerModel.RolePermissionLinkRole"
+                              FromRole="RolePermissionLink" ToRole="Role" />
+          <NavigationProperty Name="Permission" Relationship="TimeTrackerModel.RolePermissionLinkPermission"
+                              FromRole="RolePermissionLink" ToRole="Permission" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="TeamProject">
+          <End Type="TimeTrackerModel.Team" Role="Team" Multiplicity="1" />
+          <End Type="TimeTrackerModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamClient">
+          <End Type="TimeTrackerModel.Team" Multiplicity="1" Role="Team" />
+          <End Type="TimeTrackerModel.Client" Multiplicity="*" Role="Client" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="IsDefault" Type="Boolean" />
+          <Property Name="PriceToDefault" Type="String" Nullable="false" MaxLength="Max" Unicode="true"
+                    FixedLength="false" />
+          <NavigationProperty Name="UserTeamLink" Relationship="TimeTrackerModel.UserTeamLinkCurrency"
+                              FromRole="Currency" ToRole="UserTeamLink" />
+          <NavigationProperty Name="Invoice" Relationship="TimeTrackerModel.InvoiceCurrency" FromRole="Currency"
+                              ToRole="Invoice" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="UserTeamLinkCurrency">
+          <End Type="TimeTrackerModel.UserTeamLink" Role="UserTeamLink" Multiplicity="*" />
+          <End Type="TimeTrackerModel.Currency" Role="Currency" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserTeamLink">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProjectClient">
+          <End Type="TimeTrackerModel.Project" Multiplicity="*" Role="Project" />
+          <End Type="TimeTrackerModel.Client" Multiplicity="1" Role="Client" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvoiceCurrency">
+          <End Type="TimeTrackerModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <End Type="TimeTrackerModel.Currency" Role="Currency" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TodoTimeRecord">
+          <End Type="TimeTrackerModel.Todo" Role="Todo" Multiplicity="1" />
+          <End Type="TimeTrackerModel.TimeRecord" Role="TimeRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Todo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeRecord">
+              <PropertyRef Name="TodoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserTeamLinkInvoice">
+          <End Type="TimeTrackerModel.UserTeamLink" Role="UserTeamLink" Multiplicity="1" />
+          <End Type="TimeTrackerModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTeamLink">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="UserTeamLinkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvoicePayment">
+          <End Type="TimeTrackerModel.Invoice" Role="Invoice" Multiplicity="1" />
+          <End Type="TimeTrackerModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProjectStatus">
+          <End Type="TimeTrackerModel.Project" Role="Project" Multiplicity="*" />
+          <End Type="TimeTrackerModel.Status" Role="Status" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TodoStatus">
+          <End Type="TimeTrackerModel.Todo" Role="Todo" Multiplicity="*" />
+          <End Type="TimeTrackerModel.Status" Role="Status" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Todo">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserTeamLinkUser">
+          <End Type="TimeTrackerModel.UserTeamLink" Role="UserTeamLink" Multiplicity="*" />
+          <End Type="TimeTrackerModel.User" Role="User" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserTeamLink">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserTeamLinkTeam">
+          <End Type="TimeTrackerModel.UserTeamLink" Role="UserTeamLink" Multiplicity="*" />
+          <End Type="TimeTrackerModel.Team" Role="Team" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserTeamLink">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RolePermissionLinkRole">
+          <End Type="TimeTrackerModel.RolePermissionLink" Role="RolePermissionLink" Multiplicity="*" />
+          <End Type="TimeTrackerModel.Role" Role="Role" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolePermissionLink">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RolePermissionLinkPermission">
+          <End Type="TimeTrackerModel.RolePermissionLink" Role="RolePermissionLink" Multiplicity="*" />
+          <End Type="TimeTrackerModel.Permission" Role="Permission" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolePermissionLink">
+              <PropertyRef Name="PermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvoiceProjectLink">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="InvoiceId" Type="Int64" Nullable="false" />
+          <Property Name="ProjectID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Invoice" Relationship="TimeTrackerModel.InvoiceProjectLinkInvoice"
+                              FromRole="InvoiceProjectLink" ToRole="Invoice" />
+          <NavigationProperty Name="Project" Relationship="TimeTrackerModel.InvoiceProjectLinkProject"
+                              FromRole="InvoiceProjectLink" ToRole="Project" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="InvoiceProjectLinkInvoice">
+          <End Type="TimeTrackerModel.InvoiceProjectLink" Role="InvoiceProjectLink" Multiplicity="*" />
+          <End Type="TimeTrackerModel.Invoice" Role="Invoice" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceProjectLink">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvoiceProjectLinkProject">
+          <End Type="TimeTrackerModel.InvoiceProjectLink" Role="InvoiceProjectLink" Multiplicity="*" />
+          <End Type="TimeTrackerModel.Project" Role="Project" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceProjectLink">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EnumType Name="StateEnum" UnderlyingType="Byte">
+          <Member Name="New" Value="0" />
+          <Member Name="Active" Value="1" />
+          <Member Name="Resolved" Value="2" />
+          <Member Name="Closed" Value="3" />
+        </EnumType>
+        <EnumType Name="RoleTypeEnum" UnderlyingType="Byte">
+          <Member Name="Admin" Value="0" />
+          <Member Name="TeamAdmin" Value="1" />
+          <Member Name="User" Value="2" />
+          <Member Name="Client" Value="3" />
+        </EnumType>
+        <EnumType Name="PermissionTypeEnum">
+          <Member Name="SuperUser" Value="0" />
+          <Member Name="ManageInvoiceForClient" Value="1" />
+          <Member Name="ManageInvoiceForSelf" Value="2" />
+          <Member Name="ManageTeams" Value="3" />
+          <Member Name="ManageUsers" Value="4" />
+          <Member Name="ManageProjects" Value="5" />
+          <Member Name="ManageTodos" Value="6" />
+          <Member Name="AddTimeRecords" Value="7" />
+          <Member Name="ManagePayments" Value="8" />
+        </EnumType>
+        <Association Name="UserClient">
+          <End Type="TimeTrackerModel.User" Role="User" Multiplicity="1" />
+          <End Type="TimeTrackerModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TodoProject">
+          <End Type="TimeTrackerModel.Todo" Role="Todo" Multiplicity="*" />
+          <End Type="TimeTrackerModel.Project" Role="Project" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Todo">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TimeTrackerModelStoreContainer" CdmEntityContainer="TimeTrackerModelContainer">
+    <EntitySetMapping Name="Payment">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.Payment)">
+        <MappingFragment StoreEntitySet="Payment">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.User)">
+        <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="Token" ColumnName="Token" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvoiceProjectLink">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.InvoiceProjectLink)">
+        <MappingFragment StoreEntitySet="InvoiceProjectLink">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Currency">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.Currency)">
+        <MappingFragment StoreEntitySet="Currency">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+          <ScalarProperty Name="PriceToDefault" ColumnName="PriceToDefault" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RolePermissionLink">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.RolePermissionLink)">
+        <MappingFragment StoreEntitySet="RolePermissionLink">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserTeamLink">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.UserTeamLink)">
+        <MappingFragment StoreEntitySet="UserTeamLink">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PublicPrice" ColumnName="PublicPrice" />
+          <ScalarProperty Name="PrivatePrice" ColumnName="PrivatePrice" />
+          <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Todo">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.Todo)">
+        <MappingFragment StoreEntitySet="Todo">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.Status)">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="StateTypeId" ColumnName="StateTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Role">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.Role)">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Key" ColumnName="Key" />
+          <ScalarProperty Name="RoleTypeId" ColumnName="RoleTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Invoice">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.Invoice)">
+        <MappingFragment StoreEntitySet="Invoice">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="DeadLine" ColumnName="DeadLine" />
+          <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+          <ScalarProperty Name="UserTeamLinkId" ColumnName="UserTeamLinkId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Team">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.Team)">
+        <MappingFragment StoreEntitySet="Team">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TimeRecord">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.TimeRecord)">
+        <MappingFragment StoreEntitySet="TimeRecord">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TodoId" ColumnName="TodoId" />
+          <ScalarProperty Name="TimeInSeconds" ColumnName="TimeInSeconds" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Permission">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.Permission)">
+        <MappingFragment StoreEntitySet="Permission">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Key" ColumnName="Key" />
+          <ScalarProperty Name="PermissionTypeId" ColumnName="PermissionTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Project">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.Project)">
+        <MappingFragment StoreEntitySet="Project">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DeadLine" ColumnName="DeadLine" />
+          <ScalarProperty Name="EffortInHours" ColumnName="EffortInHours" />
+          <ScalarProperty Name="EffortInCurrency" ColumnName="EffortInCurrency" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+          <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Client">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerModel.Client)">
+        <MappingFragment StoreEntitySet="Client">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

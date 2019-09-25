@@ -1,0 +1,26 @@
+﻿
+@using Microsoft.Ajax.Utilities
+@model WebUi.Model.Status.Status
+@{
+    ViewBag.Title = "DeleteStatus";
+    Layout = "~/Views/Shared/_Admin_layout.cshtml";
+}
+<h2>Delete Permission</h2>
+<h3>Are you sure you want to delete this?</h3>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        <h4><strong>@Model.Name</strong></h4>
+        <div class="form-group">
+            <div class="col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-warning" /> |
+            @Html.ActionLink(WebUi.Resource.BackToList, "StatusList")
+        </div>
+    </div>
+}

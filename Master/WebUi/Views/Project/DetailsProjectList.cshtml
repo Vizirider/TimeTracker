@@ -1,0 +1,112 @@
+﻿@using System.Web.UI.WebControls
+@model WebUi.Model.Project.ProjectViewModel
+@{
+    ViewBag.Title = "ProjectListWithDatas";
+    if (Session["User"] != null)
+    {
+        if (Session["Role"].ToString() == "Client")
+        {
+            Layout = "~/Views/Shared/_Client_layout.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_User_layout.cshtml";
+        }
+    }
+}
+@if (Session["user"] == null)
+{
+    <br/>
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    <h2>Details <strong>@Model.ProjectDetails.ProjectName</strong></h2>
+    <br />
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectDetails.ProjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectDetails.DeadLine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectDetails.EffortInHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectDetails.EffortInCurrency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectDetails.Currency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectDetails.TeamName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectDetails.StatusName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectDetails.Clientname)
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ProjectDetails.ProjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ProjectDetails.DeadLine)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ProjectDetails.EffortInHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ProjectDetails.EffortInCurrency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ProjectDetails.Currency)
+            </td>
+            <td>
+                @Html.ActionLink(@Model.ProjectDetails.TeamName, "DetailsTeam", new { id = Model.ProjectDetails.TeamId })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ProjectDetails.StatusName)
+            </td>
+            <td>
+                @Html.ActionLink(@Model.ProjectDetails.Clientname, "DetailsClient", new { id = Model.ProjectDetails.ClientId })
+            </td>
+        </tr>
+    </table>
+    <hr/>
+    if (@ViewBag.Flag == "0" || @ViewBag.Flag == null)
+    {
+        <text> Todo lista üres!</text>
+    }
+    else
+    {
+        <h2>Todo List for @Model.ProjectDetails.TeamName team</h2>
+        <div class="control-section">
+            @Html.EJS().Grid("Todo").DataSource((IEnumerable<object>) Model.AllTodoList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+            {
+                col.Field("Id").HeaderText("ID").Width("100").Add();
+                col.Field("Title").HeaderText("Title").Width("auto").Add();
+                col.Field("Content").HeaderText("Content").Width("auto").Add();
+                col.Field("StatusName").HeaderText("Status").Width("auto").Add();
+                col.Field("ProjectName").HeaderText("project Name").Width("auto").Add();
+            }).AllowPaging().AllowSorting().Created("created").Render()
+        </div>
+        <script>
+            function created() {
+                $(".e-filtertext").eq(0).attr("placeholder", "ID");
+                $(".e-filtertext").eq(1).attr("placeholder", "Title"); 
+                $(".e-filtertext").eq(2).attr("placeholder", "Content"); 
+                $(".e-filtertext").eq(3).attr("placeholder", "Status Name"); 
+                $(".e-filtertext").eq(4).attr("placeholder", "Project Name"); 
+            }
+        </script>
+    }
+    <br/>
+    <div>
+        @Html.ActionLink(WebUi.Resource.BackToList, "ProjectList", "Project")
+    </div>
+}

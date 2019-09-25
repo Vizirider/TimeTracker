@@ -1,0 +1,64 @@
+﻿@model WebUi.Model.Team.TeamDetailsViewModel
+@{
+    ViewBag.Title = "DetailsTeam";
+    Layout = "~/Views/Shared/_User_layout.cshtml";
+}
+
+<br />
+
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    <h2>Details <strong>@Model.TeamName</strong></h2>
+
+    <br />
+
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>
+                @Html.DisplayName("User Id")
+            </th>
+            <th>
+                @Html.DisplayName("User name")
+            </th>
+            <th>
+                @Html.DisplayName("Currency")
+            </th>
+            <th>
+                @Html.DisplayName("Public Price")
+            </th>
+            <th>
+                @Html.DisplayName("Private Price")
+            </th>
+        </tr>
+
+        @foreach (var item in Model.TeamDetailsList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Currency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublicPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrivatePrice)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <div>
+        @Html.ActionLink(WebUi.Resource.BackToList, "ProjectList", "Project")
+    </div>
+}

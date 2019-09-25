@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Time Track</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/bootstrap4.css" rel="stylesheet" />
+    <script src="~/Scripts/ej2/ej2.min.js"></script>
+    <link href="~/Content/ej2/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink(WebUi.Resource.Home, "Index", "User", new {area = ""}, new {@class = "navbar-brand"})
+            </div>
+            <div class="navbar-collapse collapse">
+
+                @if (Session["User"] != null && Session["Role"].ToString() == "User")
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink(WebUi.Resource.Clients, "ClientsList", "Client")</li>
+                        <li>@Html.ActionLink(WebUi.Resource.Teams, "TeamList", "Team")</li>
+                        <li>@Html.ActionLink(WebUi.Resource.Projects, "ProjectList", "Project")</li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                @Session["User"].ToString()
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a>@Html.ActionLink(WebUi.Resource.Profile, "Info", "User")</a></li>
+                                <li>@Html.ActionLink(WebUi.Resource.EditProfile, "EditUser", "User")</li>
+                            </ul>
+                        </li>
+
+                        <li>@Html.ActionLink(WebUi.Resource.LogOut, "Logout", "Login")</li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Time Track</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @Html.EJS().ScriptManager()
+</body>
+</html>
+

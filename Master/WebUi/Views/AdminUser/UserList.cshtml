@@ -1,0 +1,63 @@
+﻿@model WebUi.Model.User.UserViewModel
+
+@{
+    ViewBag.Title = "UserList";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    <h2>@Resource.UserList</h2>
+    <p>
+        @Html.ActionLink(Resource.CreateNewUser, "RegisterUser", "Register", null, new { @class = "btn btn-primary" })
+    </p>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+        @if (Model.UserList.Count == 0)
+        {
+            <text> Clients list is empty.</text>
+        }
+        else
+        {
+            <div class="control-section">
+                @Html.EJS().Grid("Grid").DataSource((IEnumerable<object>) @Model.UserList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+                {
+                    col.Field("Id").HeaderText("Id").Width("120").Add();
+                    col.Field("Name").HeaderText(Model.Name).Width("auto").Add();
+                    col.Field("Email").HeaderText(Model.Email).Width("auto").Add();
+                    col.Field("Phone").HeaderText(Model.Phone).Width("auto").Add();
+                    col.Field("RoleName").HeaderText(Model.RoleName).Width("auto").Add();
+                    col.Field("Options").HeaderText("Options").Template("#template").Width("auto").Add();
+                }).AllowPaging(true).AllowSorting().Created("created").Render()
+            </div>
+            <script id="template" type="text/x-template">
+                <a rel='nofollow' href="EditUser/${Id}">Edit</a> |
+                <a rel='nofollow' href="DeleteUser/${Id}">Delete</a>
+            </script>
+            <script>
+                function created() {
+                    $(".e-filtertext").eq(0).attr("placeholder", "ID");
+                    $(".e-filtertext").eq(1).attr("placeholder", "Name");
+                    $(".e-filtertext").eq(2).attr("placeholder", "Email");
+                    $(".e-filtertext").eq(3).attr("placeholder", "Phone");
+                    $(".e-filtertext").eq(4).attr("placeholder", "Role Name");
+                }
+            </script>
+            <br />
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.ActionLink(WebUi.Resource.BackToHome, "Index", "Admin")
+                </div>
+            </div>
+            <div id="Grid"></div> 
+        }
+    </div>
+}

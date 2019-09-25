@@ -1,0 +1,57 @@
+﻿@model WebUi.Model.Currency.CurrencyModel
+@using Syncfusion.EJ2
+
+@{
+    ViewBag.Title = "CurrencyList";
+    Layout = "~/Views/Shared/_Admin_layout.cshtml";
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{   <h2>@Resource.CurrencyList</h2>
+    <br/>
+    <p>
+        @Html.ActionLink(Resource.NewCurrency, "AddNewCurrency", null, new { @class = "btn btn-primary" })
+    </p>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+        @if (Model.CurrencyList.Count == 0)
+        {
+            <text>Team list is empty.</text>
+        }
+        else
+        {
+            <div class="control-section">
+                @Html.EJS().Grid("DialogEditing").DataSource((IEnumerable<object>) @Model.CurrencyList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+                {
+                    col.Field("Id").HeaderText("ID").IsPrimaryKey(true).Width("120").ValidationRules(new {required = true, number = true}).TextAlign(Syncfusion.EJ2.Grids.TextAlign.Right).Add();
+                    col.Field("Code").HeaderText("Currency Code").Width("150").ValidationRules(new {required = true, minLength = 3}).Add();
+                    col.Field("PriceToDefault").HeaderText("Price to default").Add();
+                    col.Field("IsDefault").HeaderText("Is the degfault").EditType("booleanedit").DisplayAsCheckBox(true).Type("boolean").Width("150").Add();
+                    col.Field("Options").HeaderText("Options").Template("#template").Width("auto").Add();
+                }).AllowPaging().Created("created").Render()
+            </div>
+            <script id="template" type="text/x-template">
+                <a rel='nofollow' href="EditCurrency/${Id}">Edit</a> |
+                <a rel='nofollow' href="DeleteCurrency/${Id}">Delete</a>
+            </script>
+            <script>
+                function created() {
+                    $(".e-filtertext").eq(0).attr("placeholder", "ID");
+                    $(".e-filtertext").eq(1).attr("placeholder", "Code"); 
+                    $(".e-filtertext").eq(2).attr("placeholder", "Price to default"); 
+                    $(".e-filtertext").eq(3).attr("placeholder", "Is default"); 
+                }
+            </script>
+            <br/>
+            @Html.ActionLink(WebUi.Resource.BackToHome, "Index", "Admin")
+        }
+    </div>
+}

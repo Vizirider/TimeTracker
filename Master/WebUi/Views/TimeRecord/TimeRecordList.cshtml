@@ -1,0 +1,55 @@
+﻿@model WebUi.Model.TimeRecord.TimeRecordModel
+@{
+    ViewBag.Title = "TimeRecordList";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink("Login Please", "Index", "Login")</p>
+}
+else
+{
+    <div class="form-horizontal">
+        <h2>Time Record List</h2>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+        @if (Model.TimeRecordList.Count == 0)
+        {
+            <text> Time record lista üres</text>
+        }
+        else
+        {
+            <div class="control-section">
+                @Html.EJS().Grid("Grid").DataSource((IEnumerable<object>) @Model.TimeRecordList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+                {
+                    col.Field("Id").HeaderText("Id").Width("120").Add();
+                    col.Field("Comment").HeaderText(@Model.Comment).Width("auto").Add();
+                    col.Field("TimeInSeconds").HeaderText("TimeInSeconds").Width("auto").Add();
+                    col.Field("TodoTitle").HeaderText(@Model.TodoTitle).Width("auto").Add();
+                    col.Field("Options").HeaderText("Options").Template("#template1").Width("auto").Add();
+                }).AllowPaging(true).AllowSorting().Created("created").Render()
+            </div>
+            <script id="template" type="text/x-template">
+            <a rel='nofollow' href="DetalisTeam/${Id}">${Name}</a>
+        </script>
+            <script id="template1" type="text/x-template1">
+            <a rel='nofollow' href="EditTimeRecord/${Id}">Edit</a> |
+            <a rel='nofollow' href="DeleteTimeRecord/${Id}">Delete</a>
+        </script>
+            <script>
+                function created() {
+                    $(".e-filtertext").eq(0).attr("placeholder", "ID");
+                    $(".e-filtertext").eq(1).attr("placeholder", "Comment"); 
+                    $(".e-filtertext").eq(2).attr("placeholder", "Time"); 
+                    $(".e-filtertext").eq(3).attr("placeholder", "Todo title"); 
+                    $(".e-filtertext").eq(4).attr("placeholder", "Project Name"); 
+                }
+            </script>
+        }
+    </div>
+}

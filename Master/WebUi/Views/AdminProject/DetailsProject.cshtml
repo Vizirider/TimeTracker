@@ -1,0 +1,118 @@
+﻿@model WebUi.Model.Project.ProjectViewModel
+
+@{
+    ViewBag.Title = "DetailsProject";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+<br />
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    if (ViewBag.Error != -1)
+    {
+        <h2>Details <strong>@Model.ProjectDetails.ProjectName</strong></h2>
+        <br/>
+        <p>
+            @Html.ActionLink("Add New Todo", "AddTodo", "AdminTodo", null, new {@class = "btn btn-primary"})
+            @Html.ActionLink("Add New Time Record", "AddTimeRecord", "TimeRecord", null, new {@class = "btn btn-primary"})
+            @Html.ActionLink("Time Record list", "TimeRecordList", "TimeRecord", null, new {@class = "btn btn-primary"})
+
+        </p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                @*<th>
+                    @Html.DisplayName(Model.ProjectDetails.ProjectName)
+                </th>*@
+                <th>
+                    @Html.DisplayName("Deadline")
+                </th>
+                <th>
+                    @Html.DisplayName("EffortInHours")
+                </th>
+                <th>
+                    @Html.DisplayName("EffortInCurrency")
+                </th>
+                <th>
+                    @Html.DisplayName("Currency")
+                </th>
+                <th>
+                    @Html.DisplayName("Team Name")
+                </th>
+                <th>
+                    @Html.DisplayName("StatusName")
+                </th>
+                <th>
+                    @Html.DisplayName("Clientname")
+                </th>
+                <th>Options</th>
+            </tr>
+            <tr>
+                @*<td>
+                    @Html.DisplayFor(modelItem => Model.ProjectDetails.ProjectName)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ProjectDetails.DeadLine)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ProjectDetails.EffortInHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ProjectDetails.EffortInCurrency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ProjectDetails.Currency)
+                </td>
+                <td>
+                    @Html.ActionLink(Model.ProjectDetails.TeamName, "DetailsTeam", new {id = Model.ProjectDetails.TeamId})
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ProjectDetails.StatusName)
+                </td>
+                <td>
+                    @Html.ActionLink(Model.ProjectDetails.Clientname, "DetailsClient", new {id = Model.ProjectDetails.ClientId})
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditProject", new {id = @Model.ProjectDetails.Id}) |
+                    @Html.ActionLink("Delete", "DeleteProject", new {id = @Model.ProjectDetails.Id})
+                </td>
+            </tr>
+        </table>
+        <hr/>
+        if (@ViewBag.Flag == "0" || @ViewBag.Flag == null)
+        {
+            <text> Todo lista üres!</text>
+        }
+        else
+        {
+            <h2>Todo List for <strong>@Model.ProjectDetails.ProjectName</strong> team</h2>
+            <div class="control-section">
+                @Html.EJS().Grid("Todo").DataSource((IEnumerable<object>) Model.AllTodoList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+                {
+                    col.Field("Id").HeaderText("ID").Width("100").Add();
+                    col.Field("Title").HeaderText("Title").Width("auto").Add();
+                    col.Field("Content").HeaderText("Content").Width("auto").Add();
+                    col.Field("StatusName").HeaderText("Status").Width("auto").Add();
+                    col.Field("ProjectName").HeaderText("project Name").Width("auto").Add();
+                }).AllowPaging().AllowSorting().Created("created").Render()
+            </div>
+            <script>
+                function created() {
+                    $(".e-filtertext").eq(0).attr("placeholder", "ID");
+                    $(".e-filtertext").eq(1).attr("placeholder", "Title"); 
+                    $(".e-filtertext").eq(2).attr("placeholder", "Content"); 
+                    $(".e-filtertext").eq(3).attr("placeholder", "Status Name"); 
+                    $(".e-filtertext").eq(4).attr("placeholder", "Project Name"); 
+                }
+            </script>
+        }
+    }
+    <br/>
+    <div>
+        @Html.ActionLink(WebUi.Resource.BackToList, "ProjectList", "AdminProject")
+    </div>
+    @ViewBag.Message
+
+}

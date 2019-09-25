@@ -1,0 +1,58 @@
+﻿@model WebUi.Model.Permission.PermissionModel
+@{
+    ViewBag.Title = "GetAllPermission";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    <h2>@Resource.PermissionList</h2>
+    <br/>
+    <p>
+        @Html.ActionLink(Resource.NewPermission, "AddNewPermission", null, new { @class = "btn btn-primary" })
+    </p>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+        @if (Model.PermissionList.Count == 0)
+        {
+            <text> Clients list is empty.</text>
+        }
+        else
+        {
+            <div class="control-section">
+                @Html.EJS().Grid("Grid").DataSource((IEnumerable<object>) @Model.PermissionList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+                {
+                    col.Field("Id").HeaderText("Id").Width("120").Add();
+                    col.Field("Key").HeaderText(Model.Key).Width("auto").Add();
+                    col.Field("PermissionTypeId").HeaderText("Permission Type Id").Width("auto").Add();
+                    col.Field("Options").HeaderText("Options").Template("#template").Width("auto").Add();
+                }).AllowPaging(true).AllowSorting().Created("created").Render()
+            </div>
+            <script id="template" type="text/x-template">
+                <a rel='nofollow' href="EditPermission/${Id}">Edit</a> |
+                <a rel='nofollow' href="DeletePermission/${Id}">Delete</a>
+            </script>
+            <script>
+                function created() {
+                    $(".e-filtertext").eq(0).attr("placeholder", "ID");
+                    $(".e-filtertext").eq(1).attr("placeholder", "Key"); 
+                    $(".e-filtertext").eq(2).attr("placeholder", "Permission type Id"); 
+                }
+            </script>
+            <br />
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.ActionLink(WebUi.Resource.BackToHome, "Index", "Admin")
+                </div>
+            </div>
+        }
+    </div>
+}

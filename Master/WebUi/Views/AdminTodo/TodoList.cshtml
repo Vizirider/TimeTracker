@@ -1,0 +1,62 @@
+﻿@model WebUi.ViewModel.Todo.TodoViewModel
+@{
+    ViewBag.Title = "TodoList";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    <h2>Todo List</h2>
+    <br/>
+    <p>
+        @Html.ActionLink("Create New Todo", "AddTodo", null, new { @class = "btn btn-primary" })
+    </p>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+        @if (Model.TodoList.Count == 0)
+        {
+            <text> Todo list is empty.</text>
+        }
+        else
+        {
+            <div class="control-section">
+                @Html.EJS().Grid("Grid").DataSource((IEnumerable<object>) @Model.TodoList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+                {
+                    col.Field("Id").HeaderText("Id").Width("120").Add();
+                    col.Field("Title").HeaderText(Model.Title).Width("auto").Add();
+                    col.Field("StatusName").HeaderText(Model.StatusName).Width("auto").Add();
+                    col.Field("Content").HeaderText(Model.Content).Width("auto").Add();
+                    col.Field("TimeInSeconds").HeaderText("Időráfordítás").Width("auto").Add();
+                    col.Field("Comment").HeaderText(Model.Comment).Width("auto").Add();
+                    col.Field("Options").HeaderText("Options").Template("#template").Width("auto").Add();
+                }).AllowPaging(true).AllowSorting().Created("created").Render()
+            </div>
+            <script id="template" type="text/x-template">
+                <a rel='nofollow' href="EditTodo/${Id}">Edit</a> |
+                <a rel='nofollow' href="DeleteTodo/${Id}">Delete</a>
+            </script>
+            <script>
+                function created() {
+                    $(".e-filtertext").eq(0).attr("placeholder", "ID");
+                    $(".e-filtertext").eq(1).attr("placeholder", "Title"); 
+                    $(".e-filtertext").eq(2).attr("placeholder", "Status Name"); 
+                    $(".e-filtertext").eq(3).attr("placeholder", "Content"); 
+                }
+            </script>
+            <br />
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.ActionLink(WebUi.Resource.BackToHome, "Index", "Admin")
+                </div>
+            </div>
+        }
+    </div>
+}

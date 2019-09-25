@@ -1,0 +1,43 @@
+﻿@model WebUi.Model.Client.ClientDetailsViewModel
+@{
+    ViewBag.Title = "DetailsClient";
+    Layout = "~/Views/Shared/_User_layout.cshtml";
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    using (Html.BeginForm())
+    {
+        <h2>Details Client List</h2>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @ViewBag.Message
+                </div>
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Cliens name</th>
+                        <th>Website</th>
+                        <th>Team name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayFor(x => Model.Id)</td>
+                        <td>@Html.DisplayFor(x => Model.ClientName)</td>
+                        <td>@Html.DisplayFor(x => Model.Website)</td>
+                        <td>@Html.DisplayFor(x => Model.TeamName)</td>
+                    </tr>
+                </tbody>
+            </table>
+            @Html.ActionLink(WebUi.Resource.BackToList, "ClientsList", "Client")
+        </div>
+    }
+}

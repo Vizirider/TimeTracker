@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a2742d1067b8473796d1f84ad1dbde51" Name="Diagram1" ZoomLevel="72" >
+        <EntityTypeShape EntityType="TimeTrackerModel.User" Width="1.5" PointX="2.625" PointY="0.625" FillColor="192, 192, 255" />
+        <EntityTypeShape EntityType="TimeTrackerModel.Role" Width="1.625" PointX="0.5" PointY="0.625" FillColor="192, 192, 255" />
+        <EntityTypeShape EntityType="TimeTrackerModel.Permission" Width="1.5" PointX="0.5" PointY="7" FillColor="192, 192, 255" />
+        <EntityTypeShape EntityType="TimeTrackerModel.Client" PointX="10.5" PointY="1" Width="1.5" />
+        <EntityTypeShape EntityType="TimeTrackerModel.Project" Width="1.5" PointX="14.5" PointY="4.625" FillColor="192, 255, 192" />
+        <EntityTypeShape EntityType="TimeTrackerModel.TimeRecord" Width="1.5" PointX="10.875" PointY="4.5" FillColor="192, 255, 192" />
+        <EntityTypeShape EntityType="TimeTrackerModel.Team" Width="1.5" PointX="2.625" PointY="7.375" FillColor="192, 192, 255" />
+        <EntityTypeShape EntityType="TimeTrackerModel.Invoice" Width="1.5" PointX="8.375" PointY="6.25" FillColor="255, 224, 192" />
+        <EntityTypeShape EntityType="TimeTrackerModel.Payment" Width="1.5" PointX="7" PointY="4.125" />
+        <AssociationConnector Association="TimeTrackerModel.UserRole" />
+        <EntityTypeShape EntityType="TimeTrackerModel.Status" Width="1.5" PointX="14" PointY="1.875" FillColor="192, 255, 192" />
+        <EntityTypeShape EntityType="TimeTrackerModel.Todo" Width="1.5" PointX="17.625" PointY="2.125" FillColor="192, 255, 192" />
+        <EntityTypeShape EntityType="TimeTrackerModel.UserTeamLink" Width="1.5" PointX="2.875" PointY="3.75" FillColor="192, 192, 255" />
+        <EntityTypeShape EntityType="TimeTrackerModel.RolePermissionLink" Width="1.5" PointX="0.5" PointY="3.875" FillColor="192, 192, 255" IsExpanded="true" />
+        <AssociationConnector Association="TimeTrackerModel.TeamProject" />
+        <AssociationConnector Association="TimeTrackerModel.TeamClient" />
+        <EntityTypeShape EntityType="TimeTrackerModel.Currency" Width="1.5" PointX="5.5" PointY="6.125" />
+        <AssociationConnector Association="TimeTrackerModel.UserTeamLinkCurrency" />
+        <AssociationConnector Association="TimeTrackerModel.ProjectClient" />
+        <AssociationConnector Association="TimeTrackerModel.InvoiceCurrency" />
+        <AssociationConnector Association="TimeTrackerModel.TodoTimeRecord" />
+        <AssociationConnector Association="TimeTrackerModel.UserTeamLinkInvoice" />
+        <AssociationConnector Association="TimeTrackerModel.InvoicePayment" />
+        <AssociationConnector Association="TimeTrackerModel.ProjectStatus" />
+        <AssociationConnector Association="TimeTrackerModel.TodoStatus" />
+        <AssociationConnector Association="TimeTrackerModel.UserTeamLinkUser" />
+        <AssociationConnector Association="TimeTrackerModel.UserTeamLinkTeam" />
+        <AssociationConnector Association="TimeTrackerModel.RolePermissionLinkRole" />
+        <AssociationConnector Association="TimeTrackerModel.RolePermissionLinkPermission" />
+        <EntityTypeShape EntityType="TimeTrackerModel.InvoiceProjectLink" Width="1.5" PointX="12.125" PointY="7.875" FillColor="255, 224, 192" />
+        <AssociationConnector Association="TimeTrackerModel.InvoiceProjectLinkInvoice" />
+        <AssociationConnector Association="TimeTrackerModel.InvoiceProjectLinkProject" />
+        <AssociationConnector Association="TimeTrackerModel.UserClient" />
+        <AssociationConnector Association="TimeTrackerModel.TodoProject" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

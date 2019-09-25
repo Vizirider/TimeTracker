@@ -1,0 +1,110 @@
+﻿@using System.Collections
+@using WebUi.Model.Team
+@model WebUi.Model.Team.TeamDetailsViewModel
+@{
+    ViewBag.Title = "DetalisTeam";
+
+    if (Session["User"] != null && Session["Role"].ToString() == "Admin")
+    {
+        Layout = "~/Views/Shared/_Admin_layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_User_layout.cshtml";
+    }
+}
+<br/>
+<div class="form-horizontal">
+    @if (Session["user"] == null)
+    {
+        <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+    }
+    else
+    {
+        <h2>Detalis of the  @Model.TeamName team</h2>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.ActionLink("Add new User", "AddNewUserForTeam", "Team", new {Id = Model.TeamId}, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+        if (Session["Role"].ToString() != "Admin")
+        {
+            if (Model.TeamDetailsList.Count == 0) 
+            {
+                <text>Team list is empty.</text>
+            }
+            else
+            {
+                <div class="control-section">
+                    @Html.EJS().Grid("Grid").DataSource((IEnumerable<object>) @Model.TeamDetailsList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+                    {
+                        col.Field("UserID").HeaderText("Id").Width("120").Add();
+                        col.Field("UserName").HeaderText(Model.UserName).Width("auto").Add();
+                        col.Field("PublicPrice").HeaderText(Model.PublicPrice).Width("120").Add();
+                        col.Field("PrivatePrice").HeaderText(Model.PrivatePrice).Width("auto").Add();
+                        col.Field("Currency").HeaderText(Model.Currency).Width("120").Add();
+                        col.Field("Options").HeaderText("Options").Template("#template").Width("auto").Add();
+                    }).AllowPaging().AllowSorting().Created("created").Render()
+                </div>
+                <script id="template" type="text/x-template">
+                    <a rel='nofollow' href="/team/EditTeamDetails/${Id}">Edit</a> |
+                    <a rel='nofollow' href="/team/DeleteTeamAndUserLink/${Id}">Delete</a>
+                </script>
+                <script>
+                    function created() {
+                        $(".e-filtertext").eq(0).attr("placeholder", "ID");
+                        $(".e-filtertext").eq(1).attr("placeholder", "User Name"); 
+                        $(".e-filtertext").eq(2).attr("placeholder", "Public Price"); 
+                        $(".e-filtertext").eq(3).attr("placeholder", "Private Price"); 
+                        $(".e-filtertext").eq(4).attr("placeholder", "Currency"); 
+                    }
+                </script>
+            }
+        }
+        else
+        {
+            if (Model.TeamDetailsList.Count == 0)
+            {
+                <text>Team list is empty.</text>
+            }
+            else
+            {
+                <div class="control-section">
+                    @Html.EJS().Grid("Grid").DataSource((IEnumerable<object>) @Model.TeamDetailsList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+                    {
+                        col.Field("UserID").HeaderText("Id").Width("120").Add();
+                        col.Field("UserName").HeaderText(Model.UserName).Width("auto").Add();
+                        col.Field("PublicPrice").HeaderText(Model.PublicPrice).Width("120").Add();
+                        col.Field("PrivatePrice").HeaderText(Model.PrivatePrice).Width("auto").Add();
+                        col.Field("Currency").HeaderText(Model.Currency).Width("120").Add();
+                        col.Field("Options").HeaderText("Options").Template("#template").Width("auto").Add();
+                    }).AllowPaging().AllowSorting().Created("created").Render()
+                </div>
+                <script id="template" type="text/x-template">
+                    <a rel='nofollow' href="/team/EditTeamDetails/${Id}">Edit</a> |
+                    <a rel='nofollow' href="/team/DeleteUser/${Id}">Delete</a>
+                </script>
+                <script>
+                    function created() {
+                        $(".e-filtertext").eq(0).attr("placeholder", "ID");
+                        $(".e-filtertext").eq(1).attr("placeholder", "User Name"); 
+                        $(".e-filtertext").eq(2).attr("placeholder", "Public Price"); 
+                        $(".e-filtertext").eq(3).attr("placeholder", "Private Price"); 
+                        $(".e-filtertext").eq(4).attr("placeholder", "Currency"); 
+                    }
+                </script>
+            }
+        }
+    }
+    <br/>
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.ActionLink(WebUi.Resource.BackToList, "TeamList", "Team")
+        </div>
+    </div>
+</div>

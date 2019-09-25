@@ -1,0 +1,53 @@
+﻿@model WebUi.Model.Register.AddClientRequestView
+@using Syncfusion.EJ2
+@using Syncfusion.JavaScript.DataVisualization.Models
+@{
+    ViewBag.Title = "ClientsList";
+    Layout = "~/Views/Shared/_User_layout.cshtml";
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    <h2>@Resource.ClientList</h2>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+        @if (Model.ClientList.Count == 0)
+        {
+            <text> Clients list is empty.</text>
+        }
+        else
+        {
+            <div class="control-section">
+                @Html.EJS().Grid("Grid").DataSource((IEnumerable<object>) @Model.ClientList).AllowFiltering().FilterSettings(filter => filter.Type(Syncfusion.EJ2.Grids.FilterType.FilterBar)).Columns(col =>
+                {
+                    col.Field("Id").HeaderText("Id").Width("120").Add();
+                    col.Field("Name").HeaderText(@Model.Name).Template("#template").Width("auto").Add();
+                }).AllowPaging(true).AllowSorting().Created("created").Render()
+            </div>
+            <script id="template" type="text/x-template">
+                <a rel='nofollow' href="DetailsClient/${Id}">${Name}</a>
+            </script>
+            <script>
+                function created() {
+                    var gridObj = document.getElementById('Grid').ej2_instances[0];
+                    $(".e-filtertext").eq(0).attr("placeholder", gridObj.columns[0].field);
+                    $(".e-filtertext").eq(1).attr("placeholder", gridObj.columns[1].field); 
+                }
+            </script>
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                <br/>
+                @Html.ActionLink(WebUi.Resource.BackToHome, "Index", "User")
+            </div>
+        </div>
+    </div>
+}

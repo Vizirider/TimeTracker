@@ -1,0 +1,26 @@
+﻿@model WebUi.Model.Team.TeamViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_User_layout.cshtml";
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    <h2>Welcome , @Session["user"] zzz</h2>
+
+    <div class="form-horizontal">
+        <hr/>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+    </div>
+
+}
+
+

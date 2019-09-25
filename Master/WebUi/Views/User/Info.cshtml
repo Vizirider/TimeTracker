@@ -1,0 +1,63 @@
+﻿@model WebUi.Model.User.UserViewModel
+
+@{
+    ViewBag.Title = "Info";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <br/>
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    if (Session["Role"].ToString() == "User")
+    {
+        <h2>Info about <strong>@Model.Name</strong></h2>
+        <div>
+            <hr/>
+            <dl class="dl-horizontal">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @ViewBag.Message
+                    </div>
+                </div>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.RoleName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.RoleName)
+                </dd>
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink(WebUi.Resource.BackToHome, "Index")
+        </p>
+    }
+}

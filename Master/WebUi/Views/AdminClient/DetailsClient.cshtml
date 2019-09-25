@@ -1,0 +1,60 @@
+﻿@model WebUi.Model.Client.ClientDetailsViewModel
+@{
+    ViewBag.Title = "DetailsClient";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+<br/>
+@if (Session["user"] == null)
+{
+    <p>@Html.ActionLink(@Resource.LoginPlease, "Index", "Login")</p>
+}
+else
+{
+    <h2>Details Client</h2>
+    <br/>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @ViewBag.Message
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClientName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Website)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TeamName)
+                </th>
+                <th>Choose an option</th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Website)
+                </td>
+                <td>
+                    @Html.ActionLink(Model.TeamName, "DetailsTeam", new { id = Model.TeamId })
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditClient", new { id = Model.Id }) |
+                    @Html.ActionLink("Delete", "DeleteClient", new { id = Model.Id })
+                </td>
+            </tr>
+        </table>
+        <div>
+            @Html.ActionLink(WebUi.Resource.BackToList, "ClientsList")
+        </div>
+    </div>
+}
